@@ -1,0 +1,4 @@
+# Fotos originales (pesadas). Las optimizadas están en assets/img
+_originales/
+*.zip
+.DS_Store

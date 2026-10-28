@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Miver Accesorios · Collares y pulseras tejidos a mano</title>
+  <meta name="description" content="Miver Accesorios: collares, pulseras y chokers tejidos a mano con cristales. Mirá el catálogo y hacé tu pedido por WhatsApp.">
+  <meta name="theme-color" content="#f7f2ec">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Miver Accesorios">
+  <meta property="og:description" content="Collares, pulseras y chokers tejidos a mano. Pedidos por WhatsApp.">
+  <meta property="og:image" content="https://miveraccesorios.github.io/assets/img/coleccion-flatlay.jpg">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body data-pagina="inicio">
+
+  <main id="principal">
+
+    <!-- ===== Portada ===== -->
+    <section class="hero">
+      <div class="contenedor hero__grilla">
+        <div class="hero__texto">
+          <span class="antetitulo">Hecho a mano</span>
+          <h1>Accesorios tejidos <em>pieza por pieza</em></h1>
+          <p>Collares, pulseras y chokers con cristales y piedras, para llevar todos los días o en esa ocasión especial.</p>
+          <div class="hero__botones">
+            <a class="btn" href="catalogo.html">Ver catálogo</a>
+            <a class="btn btn--borde" href="#" data-wa="¡Hola Miver! Quería hacer una consulta.">Escribinos</a>
+          </div>
+        </div>
+        <div class="hero__fotos">
+          <img class="hero__foto-1" src="assets/img/esmeralda-2.jpg" srcset="assets/img/esmeralda-2-chica.jpg 700w, assets/img/esmeralda-2.jpg 1600w" sizes="(max-width: 860px) 66vw, 33vw" alt="Collar Esmeralda tejido con cristales verdes">
+          <img class="hero__foto-2" src="assets/img/cielo-1-chica.jpg" alt="Collar Mil vueltas Jazmín usado como pulsera">
+          <svg class="hero__destello" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5c.55 5.3 2.2 8.45 10.5 10.5C14.2 14.05 12.55 17.2 12 22.5 11.45 17.2 9.8 14.05 1.5 12 9.8 9.95 11.45 6.8 12 1.5Z"/></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Cinta de beneficios ===== -->
+    <div class="cinta">
+      <ul class="contenedor cinta__lista">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1.5c.55 5.3 2.2 8.45 10.5 10.5C14.2 14.05 12.55 17.2 12 22.5 11.45 17.2 9.8 14.05 1.5 12 9.8 9.95 11.45 6.8 12 1.5Z"/></svg>Tejido a mano</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12Z"/></svg>Pedidos por WhatsApp</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5v-9Z"/><path d="m3.5 7.5 8.5 4.5 8.5-4.5M12 12v9"/></svg>Entrega a coordinar</li>
+      </ul>
+    </div>
+
+    <!-- ===== Categorías ===== -->
+    <section class="seccion">
+      <div class="contenedor">
+        <div class="seccion__encabezado">
+          <div>
+            <span class="antetitulo">Colección</span>
+            <h2>Elegí tu <em>estilo</em></h2>
+          </div>
+          <a class="link-flecha" href="catalogo.html">Ver todo →</a>
+        </div>
+        <div class="categorias" id="categorias"></div>
+      </div>
+    </section>
+
+    <!-- ===== Destacados ===== -->
+    <section class="seccion seccion--alt">
+      <div class="contenedor">
+        <div class="seccion__encabezado">
+          <div>
+            <span class="antetitulo">Favoritos</span>
+            <h2>Los más elegidos</h2>
+          </div>
+          <a class="link-flecha" href="catalogo.html">Catálogo completo →</a>
+        </div>
+        <div class="grilla-productos" id="destacados"></div>
+      </div>
+    </section>
+
+    <!-- ===== Sobre la marca ===== -->
+    <section class="seccion" id="nosotros">
+      <div class="contenedor marca">
+        <div class="marca__imagen aparece">
+          <img src="assets/img/coleccion-flatlay.jpg" srcset="assets/img/coleccion-flatlay-chica.jpg 700w, assets/img/coleccion-flatlay.jpg 1600w" sizes="(max-width: 860px) 90vw, 40vw" alt="Colección de collares y pulseras Miver sobre una mesa" loading="lazy">
+        </div>
+        <div class="marca__texto aparece">
+          <span class="antetitulo">Sobre Miver</span>
+          <h2>Detalles que se tejen <em>con tiempo</em></h2>
+          <p>Cada accesorio de Miver está hecho a mano, nudo por nudo, combinando hilos con cristales y piedras de distintos colores. Por eso no hay dos piezas exactamente iguales.</p>
+          <p>Nos gustan los accesorios versátiles: un mismo collar se puede usar largo, enroscado en varias vueltas como choker o incluso como cinturón.</p>
+          <p class="marca__firma">Con cariño, Miver ✦</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Lookbook ===== -->
+    <section class="seccion seccion--alt">
+      <div class="contenedor">
+        <div class="seccion__encabezado seccion__encabezado--centro">
+          <span class="antetitulo">Inspiración</span>
+          <h2>Cómo se <em>usan</em></h2>
+          <p>Nuestros collares largos tienen muchas formas de usarse: sueltos, cruzados, enroscados en varias vueltas como choker, atados a la cintura como cinturón o como pulseras.</p>
+        </div>
+        <div class="lookbook">
+          <figure class="alto aparece"><img src="assets/img/noche-2-chica.jpg" alt="Collar Mil vueltas usado largo con sweater negro" loading="lazy"></figure>
+          <figure class="ancho aparece"><img src="assets/img/lookbook-noche-violeta-chica.jpg" alt="Collar largo con luz violeta" loading="lazy"></figure>
+          <figure class="alto aparece"><img src="assets/img/marfil-3-chica.jpg" alt="Collar Mil vueltas usado como cadena de cuerpo" loading="lazy"></figure>
+          <figure class="aparece"><img src="assets/img/ambar-3-chica.jpg" alt="Collar Mil vueltas usado como pulsera, con mate" loading="lazy"></figure>
+          <figure class="aparece"><img src="assets/img/cinturon-dorado-1-chica.jpg" alt="Collar Mil vueltas usado como cinturón sobre jean" loading="lazy"></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Cómo comprar ===== -->
+    <section class="seccion" id="como-comprar">
+      <div class="contenedor">
+        <div class="seccion__encabezado seccion__encabezado--centro">
+          <span class="antetitulo">Simple y rápido</span>
+          <h2>Cómo comprar</h2>
+        </div>
+        <ol class="pasos">
+          <li class="paso aparece">
+            <h3>Elegí tus favoritos</h3>
+            <p>Recorré el catálogo y tocá <strong>+</strong> o “Agregar al pedido” en lo que te guste.</p>
+          </li>
+          <li class="paso aparece">
+            <h3>Enviá tu pedido</h3>
+            <p>Desde “Mi pedido” tocá “Enviar por WhatsApp”: se abre el chat con todo el detalle listo.</p>
+          </li>
+          <li class="paso aparece">
+            <h3>Coordinamos</h3>
+            <p>Te confirmamos disponibilidad y acordamos juntos el pago y la entrega. ¡Y listo!</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== Preguntas frecuentes ===== -->
+    <section class="seccion seccion--alt" id="preguntas">
+      <div class="contenedor">
+        <div class="seccion__encabezado seccion__encabezado--centro">
+          <span class="antetitulo">Dudas</span>
+          <h2>Preguntas frecuentes</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>¿Cómo pago?</summary>
+            <p data-config="mediosDePago">Transferencia bancaria o efectivo.</p>
+          </details>
+          <details>
+            <summary>¿Hacen envíos?</summary>
+            <p data-config="entregas">Coordinamos la entrega por WhatsApp: retiro, envío o punto de encuentro.</p>
+          </details>
+          <details>
+            <summary>¿Las piezas son todas iguales a la foto?</summary>
+            <p>Como son tejidas a mano, cada pieza puede tener pequeñas variaciones en la ubicación de los cristales. ¡Eso las hace únicas!</p>
+          </details>
+          <details>
+            <summary>¿Puedo pedir otro color o largo?</summary>
+            <p>Sí. Muchas piezas se pueden hacer a pedido en otros colores o largos. Escribinos por WhatsApp y lo charlamos.</p>
+          </details>
+          <details>
+            <summary>¿Cómo cuido mis accesorios?</summary>
+            <p>Te recomendamos guardarlos separados, evitar el contacto con perfumes y cremas, y no mojarlos para que los hilos y cristales se mantengan como nuevos.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contacto ===== -->
+    <section class="seccion" id="contacto">
+      <div class="contenedor">
+        <div class="contacto aparece">
+          <svg class="contacto__destello" style="width:90px;height:90px;left:6%;top:14%" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5c.55 5.3 2.2 8.45 10.5 10.5C14.2 14.05 12.55 17.2 12 22.5 11.45 17.2 9.8 14.05 1.5 12 9.8 9.95 11.45 6.8 12 1.5Z"/></svg>
+          <svg class="contacto__destello" style="width:46px;height:46px;right:9%;bottom:18%" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5c.55 5.3 2.2 8.45 10.5 10.5C14.2 14.05 12.55 17.2 12 22.5 11.45 17.2 9.8 14.05 1.5 12 9.8 9.95 11.45 6.8 12 1.5Z"/></svg>
+          <span class="antetitulo">Contacto</span>
+          <h2>¿Tenés alguna consulta?</h2>
+          <p>Escribinos y te respondemos a la brevedad. También hacemos piezas a pedido y regalos.</p>
+          <div class="contacto__botones">
+            <a class="btn btn--wa" href="#" data-wa="¡Hola Miver! Quería hacer una consulta."><span data-icono="whatsapp"></span>WhatsApp</a>
+            <a class="btn btn--borde" href="#" data-instagram target="_blank" rel="noopener">Instagram</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/productos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
