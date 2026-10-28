@@ -541,57 +541,6 @@ em {
   }
 }
 
-/* ---------- Cinta de beneficios ---------- */
-
-.cinta {
-  border-top: 1px solid var(--linea);
-  border-bottom: 1px solid var(--linea);
-  background: var(--crema-2);
-}
-
-.cinta__lista {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.cinta__lista li {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 20px 12px;
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--cafe-2);
-  text-align: center;
-}
-
-.cinta__lista svg {
-  width: 22px;
-  height: 22px;
-  color: var(--dorado);
-  flex: none;
-}
-
-@media (max-width: 700px) {
-  .cinta__lista {
-    grid-template-columns: 1fr;
-  }
-
-  .cinta__lista li {
-    padding: 12px;
-    justify-content: flex-start;
-  }
-
-  .cinta__lista li + li {
-    border-top: 1px solid var(--linea);
-  }
-}
-
 /* ---------- Secciones ---------- */
 
 .seccion {
