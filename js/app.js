@@ -653,6 +653,40 @@
   }
 
   /* ---------- Página: producto ---------- */
+  // Canónica y datos estructurados (schema.org) para que Google muestre precio y stock
+  function datosParaBuscadores(p) {
+    const base = "https://miver.com.ar/";
+    const canonica = document.createElement("link");
+    canonica.rel = "canonical";
+    canonica.href = base + urlProducto(p);
+    document.head.appendChild(canonica);
+
+    const disponibilidad = {
+      disponible: "https://schema.org/InStock",
+      "a-pedido": "https://schema.org/PreOrder",
+      agotado: "https://schema.org/OutOfStock",
+    };
+    const datos = document.createElement("script");
+    datos.type = "application/ld+json";
+    datos.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: p.nombre,
+      description: p.descripcion,
+      image: p.fotos.map((f) => base + img(f)),
+      category: nombreCategoria(p.categoria),
+      brand: { "@type": "Brand", name: `${CONFIG.nombre} ${CONFIG.bajada}` },
+      offers: {
+        "@type": "Offer",
+        url: base + urlProducto(p),
+        price: p.precio,
+        priceCurrency: CONFIG.moneda || "ARS",
+        availability: disponibilidad[p.estado] || disponibilidad.disponible,
+      },
+    });
+    document.head.appendChild(datos);
+  }
+
   function paginaProducto() {
     const cont = $("#producto");
     const id = new URLSearchParams(location.search).get("id");
@@ -671,6 +705,7 @@
     document.title = `${p.nombre} · ${CONFIG.nombre} ${CONFIG.bajada}`;
     const meta = $('meta[name="description"]');
     if (meta) meta.content = p.descripcion;
+    datosParaBuscadores(p);
 
     const estados = {
       disponible: "Disponible",

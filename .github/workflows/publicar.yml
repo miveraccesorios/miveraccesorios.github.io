@@ -27,7 +27,18 @@ jobs:
       - name: Armar carpeta del sitio
         run: |
           mkdir _sitio
-          cp -r index.html catalogo.html producto.html 404.html favicon.svg css js assets _sitio/
+          cp -r index.html catalogo.html producto.html 404.html favicon.svg robots.txt css js assets _sitio/
+      - name: Generar el mapa del sitio para Google (incluye cada producto)
+        run: |
+          node -e '
+            global.window = {};
+            require("./js/productos.js");
+            const base = "https://miver.com.ar/";
+            const urls = ["", "catalogo.html"].concat(window.MIVER_PRODUCTOS.map((p) => "producto.html?id=" + encodeURIComponent(p.id)));
+            const xml = urls.map((u) => "  <url><loc>" + (base + u).replace(/&/g, "&amp;") + "</loc></url>").join("\n");
+            console.log("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + xml + "\n</urlset>");
+          ' > _sitio/sitemap.xml
+          cat _sitio/sitemap.xml
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
