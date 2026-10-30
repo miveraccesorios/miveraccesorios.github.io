@@ -2,3 +2,6 @@
 _originales/
 *.zip
 .DS_Store
+
+# Instrucciones internas: quedan solo en la compu
+README.md
