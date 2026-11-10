@@ -767,11 +767,6 @@ em {
   color: #fff;
 }
 
-.tarjeta.agotado .tarjeta__imagen img {
-  filter: grayscale(0.6);
-  opacity: 0.75;
-}
-
 .tarjeta__agregar {
   position: absolute;
   right: 12px;
