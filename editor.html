@@ -3,31 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex">
+  <meta name="robots" content="noindex, nofollow">
   <title>Editor de productos · Miver</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/estilos.css">
   <style>
     body { background: var(--crema); }
+    [hidden] { display: none !important; }
     .ed-top { position: sticky; top: 0; z-index: 30; background: var(--cafe); color: var(--crema); }
-    .ed-top .contenedor { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }
+    .ed-top .contenedor { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }
     .ed-top h1 { color: var(--crema); font-size: 1.6rem; }
     .ed-top .btn { min-height: 40px; padding: 0 18px; }
     .ed-top .btn--borde { border-color: var(--crema); color: var(--crema); }
     .ed-top .btn--borde:hover { background: var(--crema); color: var(--cafe); }
+    .btn--publicar { background: var(--dorado); border-color: var(--dorado); }
+    .btn[disabled] { opacity: .5; cursor: default; }
     .ed-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ed-estado { font-size: .85rem; opacity: .9; }
     .ed-ayuda { background: var(--blanco); border: 1px solid var(--linea); border-radius: var(--radio); padding: 18px 22px; margin: 26px 0; font-size: .92rem; color: var(--texto-suave); }
     .ed-ayuda ol { margin: 8px 0 0; padding-left: 20px; }
+    .ed-ayuda li { margin-bottom: 4px; }
     .ed-ayuda strong { color: var(--cafe); font-weight: 500; }
+    .ed-panel { background: var(--blanco); border: 1px solid var(--linea); border-radius: var(--radio); padding: 22px; margin: 26px 0; display: grid; gap: 12px; max-width: 640px; }
+    .ed-panel h2 { font-size: 1.7rem; }
+    .ed-panel input { width: 100%; }
+    .ed-panel .fila { display: flex; gap: 10px; flex-wrap: wrap; }
     .ed-aviso { background: #fff3cd; border: 1px solid #ecd78d; color: #5c4500; border-radius: var(--radio-chico); padding: 10px 14px; margin: 0 0 18px; font-size: .9rem; display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; }
-    .ed-aviso[hidden] { display: none; }
     .ed-aviso button { border: 0; background: none; text-decoration: underline; cursor: pointer; color: inherit; font-size: .85rem; }
+    .ed-mensaje { border-radius: var(--radio-chico); padding: 12px 16px; margin: 18px 0; font-size: .92rem; }
+    .ed-mensaje--ok { background: #e3f1e4; border: 1px solid #a9d3ad; color: #1f4d24; }
+    .ed-mensaje--error { background: #fbe4e1; border: 1px solid #e7aaa2; color: #6b1d14; }
+    .ed-mensaje--info { background: var(--blanco); border: 1px solid var(--linea); color: var(--texto-suave); }
     .ed-barra { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
     .ed-barra .campo { display: flex; align-items: center; gap: 8px; }
     .ed-barra .campo label { margin: 0; }
     .ed-barra input { width: 90px; }
-    .ed-tabla-envoltura { overflow-x: auto; background: var(--blanco); border: 1px solid var(--linea); border-radius: var(--radio); }
+    .ed-tabla-envoltura { overflow-x: auto; background: var(--blanco); border: 1px solid var(--linea); border-radius: var(--radio); margin-bottom: 40px; }
     table { border-collapse: collapse; width: 100%; min-width: 860px; font-size: .92rem; }
     th, td { padding: 10px 12px; border-bottom: 1px solid var(--linea); text-align: left; vertical-align: middle; }
     th { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--texto-suave); font-weight: 500; background: var(--crema-2); }
@@ -37,7 +49,7 @@
     td input[type=number] { width: 110px; }
     td .nombre { font-family: var(--serif); font-size: 1.2rem; color: var(--cafe); }
     td .id { font-size: .75rem; color: var(--texto-suave); }
-    .mini { border: 1px solid var(--linea); background: #fff; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: .82rem; }
+    .mini { border: 1px solid var(--linea); background: #fff; border-radius: 6px; padding: 6px 10px; cursor: pointer; font-size: .82rem; color: var(--texto); }
     .mini:hover { border-color: var(--cafe); }
     .mini--peligro { color: var(--rojo); }
     .mini[disabled] { opacity: .35; cursor: default; }
@@ -49,59 +61,109 @@
     .dlg-pie { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 22px 20px; border-top: 1px solid var(--linea); position: sticky; bottom: 0; background: var(--crema); }
     .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .ayuda-campo { font-size: .78rem; color: var(--texto-suave); margin-top: 4px; }
-    .previas { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-    .previas figure { margin: 0; text-align: center; font-size: .7rem; color: var(--texto-suave); width: 70px; }
-    .previas img { width: 70px; height: 84px; object-fit: cover; border-radius: 6px; background: var(--arena); }
-    .previas .falta img { outline: 2px solid var(--rojo); }
-    .checks { display: flex; gap: 22px; }
+    .fotos { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .fotos figure { margin: 0; width: 92px; display: grid; gap: 4px; }
+    .fotos img { width: 92px; height: 110px; object-fit: cover; border-radius: 6px; background: var(--arena); }
+    .fotos .principal img { outline: 2px solid var(--dorado); outline-offset: 2px; }
+    .fotos .falta img { outline: 2px solid var(--rojo); }
+    .fotos figcaption { display: flex; justify-content: space-between; gap: 2px; }
+    .fotos figcaption .mini { padding: 4px 7px; }
+    .agregar-foto { width: 92px; height: 110px; border: 1.5px dashed var(--linea); border-radius: 6px; display: grid; place-items: center; text-align: center; font-size: .8rem; color: var(--texto-suave); cursor: pointer; padding: 6px; }
+    .agregar-foto:hover { border-color: var(--cafe); color: var(--cafe); }
+    .agregar-foto input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .checks { display: flex; gap: 22px; flex-wrap: wrap; }
     .checks label { display: flex; gap: 8px; align-items: center; cursor: pointer; }
     .error { color: var(--rojo); font-size: .85rem; }
+    details.avanzado summary { cursor: pointer; font-size: .85rem; color: var(--texto-suave); }
+    details.avanzado .campo { margin-top: 10px; }
     @media (max-width: 600px) { .dos { grid-template-columns: 1fr; } }
+
+    /* En el celu, cada producto se muestra como una tarjeta */
+    @media (max-width: 760px) {
+      .ed-top h1 { font-size: 1.3rem; }
+      .ed-top .btn { padding: 0 12px; font-size: .85rem; }
+      table { min-width: 0; }
+      thead { display: none; }
+      tbody, tbody tr, tbody td { display: block; }
+      tbody tr { display: grid; grid-template-columns: 56px 1fr; gap: 10px 12px; padding: 14px; border-bottom: 1px solid var(--linea); }
+      tbody tr:last-child { border-bottom: 0; }
+      tbody td { border: 0; padding: 0; }
+      tbody td.c-foto { grid-row: span 1; }
+      tbody td.c-dato { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+      tbody td.c-dato::before { content: attr(data-et); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--texto-suave); }
+      tbody td.c-acciones { grid-column: 1 / -1; }
+      .fila-acciones { flex-wrap: wrap; }
+      .fila-acciones .mini { padding: 9px 14px; }
+    }
   </style>
 </head>
 <body>
   <header class="ed-top">
     <div class="contenedor">
-      <h1>Editor de productos</h1>
+      <div>
+        <h1>Editor de productos</h1>
+        <div class="ed-estado" id="estado" aria-live="polite"></div>
+      </div>
       <div class="ed-acciones">
-        <a class="btn btn--borde" href="catalogo.html" target="_blank">Ver catálogo</a>
-        <button class="btn btn--borde" type="button" id="btn-nuevo">+ Nuevo producto</button>
-        <button class="btn" type="button" id="btn-descargar" style="background:var(--dorado);border-color:var(--dorado)">Descargar productos.js</button>
+        <a class="btn btn--borde" href="catalogo.html" target="_blank" rel="noopener">Ver sitio</a>
+        <button class="btn btn--borde" type="button" id="btn-nuevo" hidden>+ Nuevo</button>
+        <button class="btn btn--publicar" type="button" id="btn-publicar" hidden>Publicar</button>
       </div>
     </div>
   </header>
 
   <main class="contenedor">
-    <div class="ed-ayuda">
-      <strong>¿Cómo se usa?</strong>
-      <ol>
-        <li>Cambiá precios, estado o tocá <strong>Editar</strong> para modificar todo. Los cambios se guardan como borrador en este navegador.</li>
-        <li>Tocá <strong>Descargar productos.js</strong> y reemplazá el archivo <code>js/productos.js</code> del proyecto por el descargado.</li>
-        <li>Recargá la página del catálogo para ver los cambios. Las fotos nuevas van en <code>assets/img/</code> (ver README).</li>
-      </ol>
-    </div>
-
-    <div class="ed-aviso" id="aviso-borrador" hidden>
-      <span>Estás viendo un <strong>borrador</strong> con cambios que todavía no descargaste.</span>
-      <button type="button" id="btn-descartar">Descartar borrador y volver al archivo original</button>
-    </div>
-
-    <div class="ed-barra">
+    <!-- Paso único: pegar la clave de GitHub -->
+    <section class="ed-panel" id="conexion" hidden>
+      <h2>Conectar el editor</h2>
+      <p>Para publicar cambios, el editor necesita una <strong>clave de acceso de GitHub</strong> con permiso sobre el sitio. Se pega una sola vez y queda guardada solo en este dispositivo.</p>
       <div class="campo">
-        <label for="porcentaje">Ajustar todos los precios</label>
-        <input id="porcentaje" type="number" step="1" value="10" aria-describedby="ayuda-porc"> %
+        <label for="clave">Clave de acceso</label>
+        <input id="clave" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…">
       </div>
-      <button class="mini" type="button" id="btn-ajustar">Aplicar</button>
-      <span class="ayuda-campo" id="ayuda-porc">Usá números negativos para bajar. Se redondea a la centena.</span>
-    </div>
+      <div class="fila">
+        <button class="btn" type="button" id="btn-conectar">Conectar</button>
+      </div>
+      <p class="error" id="conexion-error" hidden></p>
+    </section>
 
-    <div class="ed-tabla-envoltura">
-      <table>
-        <thead>
-          <tr><th>Foto</th><th>Producto</th><th>Categoría</th><th>Precio $</th><th>Estado</th><th>Destacado</th><th>Nuevo</th><th>Acciones</th></tr>
-        </thead>
-        <tbody id="filas"></tbody>
-      </table>
+    <div id="cargando" class="ed-mensaje ed-mensaje--info">Cargando el catálogo…</div>
+    <div id="mensaje" class="ed-mensaje" hidden></div>
+
+    <div id="editor" hidden>
+      <div class="ed-ayuda">
+        <strong>¿Cómo se usa?</strong>
+        <ol>
+          <li>Cambiá precios o estado directamente en la lista, o tocá <strong>Editar</strong> para cambiar todo (nombre, fotos, descripción).</li>
+          <li>Los cambios se guardan solos como borrador en este dispositivo, pero <strong>todavía no se ven en la web</strong>.</li>
+          <li>Cuando termines, tocá <strong>Publicar</strong>. En 1 o 2 minutos aparecen en miver.com.ar.</li>
+        </ol>
+      </div>
+
+      <div class="ed-aviso" id="aviso-borrador" hidden>
+        <span id="aviso-texto"></span>
+        <button type="button" id="btn-descartar">Descartar cambios</button>
+      </div>
+
+      <div class="ed-barra">
+        <div class="campo">
+          <label for="porcentaje">Ajustar todos los precios</label>
+          <input id="porcentaje" type="number" step="1" value="10" inputmode="numeric" aria-describedby="ayuda-porc"> %
+        </div>
+        <button class="mini" type="button" id="btn-ajustar">Aplicar</button>
+        <span class="ayuda-campo" id="ayuda-porc">Usá números negativos para bajar. Se redondea a la centena.</span>
+      </div>
+
+      <div class="ed-tabla-envoltura">
+        <table>
+          <thead>
+            <tr><th>Foto</th><th>Producto</th><th>Categoría</th><th>Precio $</th><th>Estado</th><th>Destacado</th><th>Nuevo</th><th>Acciones</th></tr>
+          </thead>
+          <tbody id="filas"></tbody>
+        </table>
+      </div>
+
+      <p class="ayuda-campo" style="margin-bottom:40px"><button class="mini" type="button" id="btn-olvidar">Desconectar este dispositivo</button> borra la clave guardada en este navegador.</p>
     </div>
   </main>
 
@@ -117,21 +179,25 @@
           </div>
         </div>
         <div class="dos">
-          <div class="campo"><label for="f-precio">Precio $</label><input id="f-precio" type="number" min="0" step="100" required></div>
-          <div class="campo"><label for="f-antes">Precio anterior $ (opcional)</label><input id="f-antes" type="number" min="0" step="100"><div class="ayuda-campo">Si es mayor al precio, se muestra tachado y con etiqueta “Oferta”.</div></div>
+          <div class="campo"><label for="f-precio">Precio $</label><input id="f-precio" type="number" min="0" step="100" inputmode="numeric" required></div>
+          <div class="campo"><label for="f-antes">Precio anterior $ (opcional)</label><input id="f-antes" type="number" min="0" step="100" inputmode="numeric"><div class="ayuda-campo">Si es mayor al precio, se muestra tachado y con etiqueta “Oferta”.</div></div>
+        </div>
+        <div class="campo">
+          <label>Fotos</label>
+          <div class="fotos" id="fotos"></div>
+          <div class="ayuda-campo">La primera (con borde dorado) es la principal. Usá ◀ ▶ para cambiar el orden.</div>
+          <p class="ayuda-campo" id="fotos-estado" aria-live="polite"></p>
         </div>
         <div class="campo"><label for="f-descripcion">Descripción</label><textarea id="f-descripcion" rows="3"></textarea></div>
         <div class="campo"><label for="f-detalles">Detalles (uno por línea)</label><textarea id="f-detalles" rows="3"></textarea></div>
-        <div class="campo">
-          <label for="f-fotos">Fotos (una por línea, nombre del archivo en assets/img sin “.jpg”)</label>
-          <textarea id="f-fotos" rows="3"></textarea>
-          <div class="previas" id="previas"></div>
-        </div>
         <div class="checks">
           <label><input type="checkbox" id="f-destacado"> Destacado en inicio</label>
           <label><input type="checkbox" id="f-nuevo"> Etiqueta “Nuevo”</label>
         </div>
-        <div class="campo"><label for="f-id">Identificador (para el link)</label><input id="f-id" pattern="[a-z0-9\-]+"><div class="ayuda-campo">Solo minúsculas, números y guiones. Se completa solo a partir del nombre.</div></div>
+        <details class="avanzado">
+          <summary>Opciones avanzadas</summary>
+          <div class="campo"><label for="f-id">Identificador (para el link)</label><input id="f-id" pattern="[a-z0-9\-]+"><div class="ayuda-campo">Solo minúsculas, números y guiones. Se completa solo a partir del nombre. Si lo cambiás, los links viejos a este producto dejan de andar.</div></div>
+        </details>
         <p class="error" id="f-error" hidden></p>
       </div>
       <div class="dlg-pie">
@@ -141,39 +207,192 @@
     </form>
   </dialog>
 
-  <script src="js/productos.js"></script>
   <script>
   (function () {
     "use strict";
-    const CLAVE = "miver-editor-borrador-v1";
-    const original = JSON.parse(JSON.stringify({ categorias: window.MIVER_CATEGORIAS || [], productos: window.MIVER_PRODUCTOS || [] }));
-    let datos;
-    try { datos = JSON.parse(localStorage.getItem(CLAVE)); } catch (e) { datos = null; }
-    if (!datos) datos = JSON.parse(JSON.stringify(original));
+
+    /* ---------- Configuración ---------- */
+    const REPO = "miveraccesorios/miveraccesorios.github.io";
+    const RAMA = "main";
+    const ARCHIVO = "js/productos.js";
+    const CARPETA_FOTOS = "assets/img";
+    const FOTO_GRANDE = { lado: 1600, calidad: 0.82 };
+    const FOTO_CHICA = { lado: 700, calidad: 0.8 };
+    const CLAVE_TOKEN = "miver-editor-token";
+    const CLAVE_BORRADOR = "miver-editor-borrador-v2";
 
     const $ = (s) => document.querySelector(s);
     const esc = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
     const slug = (t) => String(t).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const copia = (o) => JSON.parse(JSON.stringify(o));
     const estados = { disponible: "Disponible", "a-pedido": "A pedido", agotado: "Agotado" };
+    const leer = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+    const escribir = (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} };
+
+    /* ---------- Estado ---------- */
+    let token = leer(CLAVE_TOKEN) || "";
+    let original = null;       // catálogo tal como está publicado
+    let datos = null;          // catálogo con los cambios
+    let baseSha = null;        // versión de productos.js sobre la que se edita
+    let existentes = new Set(); // fotos que ya están en el sitio (nombre sin .jpg)
+    const locales = new Map(); // fotos nuevas: nombre -> { grande, chica, url }
+    const pendientes = new Set(); // nombres de fotos nuevas que faltan subir
+    let publicando = false;
+
+    /* ---------- GitHub ---------- */
+    async function gh(ruta, opciones = {}) {
+      const r = await fetch(`https://api.github.com/repos/${REPO}${ruta}`, {
+        ...opciones,
+        cache: "no-store",
+        headers: {
+          Accept: "application/vnd.github+json",
+          Authorization: `Bearer ${token}`,
+          "X-GitHub-Api-Version": "2022-11-28",
+          ...(opciones.body ? { "Content-Type": "application/json" } : {}),
+        },
+      });
+      if (!r.ok) {
+        let detalle = "";
+        try { detalle = (await r.json()).message || ""; } catch (e) {}
+        const err = new Error(detalle || `Error ${r.status}`);
+        err.status = r.status;
+        throw err;
+      }
+      return r.status === 204 ? null : r.json();
+    }
+    const post = (ruta, cuerpo) => gh(ruta, { method: "POST", body: JSON.stringify(cuerpo) });
+
+    function explicar(err) {
+      if (err.status === 401) return "La clave no es válida o ya venció. Pedí una nueva y volvé a conectar.";
+      if (err.status === 403 || err.status === 404) return "La clave no tiene permiso para modificar el sitio (tiene que tener acceso al repositorio con permiso de escritura en “Contents”).";
+      if (err instanceof TypeError) return "No hay conexión a internet, o GitHub no responde. Probá de nuevo en un rato.";
+      return err.message || "Ocurrió un error inesperado.";
+    }
+
+    function decodificar(base64) {
+      const bytes = Uint8Array.from(atob(base64.replace(/\s/g, "")), (c) => c.charCodeAt(0));
+      return new TextDecoder().decode(bytes);
+    }
+
+    function interpretar(texto) {
+      const w = {};
+      new Function("window", texto)(w);
+      if (!Array.isArray(w.MIVER_PRODUCTOS)) throw new Error("El archivo de productos no tiene el formato esperado.");
+      return { categorias: w.MIVER_CATEGORIAS || [], productos: w.MIVER_PRODUCTOS };
+    }
+
+    async function cargarPublicado() {
+      const ref = await gh(`/git/ref/heads/${RAMA}`);
+      const commit = await gh(`/git/commits/${ref.object.sha}`);
+      const arbol = await gh(`/git/trees/${commit.tree.sha}?recursive=1`);
+      const prefijo = CARPETA_FOTOS + "/";
+      existentes = new Set(arbol.tree
+        .filter((e) => e.type === "blob" && e.path.startsWith(prefijo) && e.path.endsWith(".jpg"))
+        .map((e) => e.path.slice(prefijo.length, -4)));
+      const archivo = arbol.tree.find((e) => e.path === ARCHIVO);
+      if (!archivo) throw new Error(`No se encontró ${ARCHIVO} en el sitio.`);
+      const blob = await gh(`/git/blobs/${archivo.sha}`);
+      return { catalogo: interpretar(decodificar(blob.content)), sha: archivo.sha };
+    }
+
+    /* ---------- Arranque ---------- */
+    async function iniciar() {
+      $("#conexion").hidden = true;
+      $("#editor").hidden = true;
+      if (!token) { $("#cargando").hidden = true; $("#conexion").hidden = false; return; }
+      $("#cargando").hidden = false;
+      try {
+        const { catalogo, sha } = await cargarPublicado();
+        original = copia(catalogo);
+        baseSha = sha;
+        let borrador = null;
+        try { borrador = JSON.parse(leer(CLAVE_BORRADOR)); } catch (e) {}
+        datos = borrador && borrador.datos ? borrador.datos : copia(original);
+        borradorDeOtraVersion = !!(borrador && borrador.base !== sha);
+        if (borrador && borrador.base) baseSha = borrador.base;
+        $("#cargando").hidden = true;
+        $("#editor").hidden = false;
+        $("#btn-nuevo").hidden = false;
+        $("#btn-publicar").hidden = false;
+        render();
+      } catch (err) {
+        $("#cargando").hidden = true;
+        if (err.status === 401 || err.status === 403 || err.status === 404) {
+          $("#conexion").hidden = false;
+          $("#conexion-error").textContent = explicar(err);
+          $("#conexion-error").hidden = false;
+        } else {
+          mostrarMensaje("error", explicar(err) + " Recargá la página para reintentar.");
+        }
+      }
+    }
+    let borradorDeOtraVersion = false;
+
+    $("#btn-conectar").addEventListener("click", () => {
+      const v = $("#clave").value.trim();
+      if (!v) return;
+      token = v;
+      escribir(CLAVE_TOKEN, v);
+      $("#conexion-error").hidden = true;
+      $("#clave").value = "";
+      iniciar();
+    });
+
+    $("#btn-olvidar").addEventListener("click", () => {
+      if (!confirm("¿Desconectar este dispositivo? Vas a tener que volver a pegar la clave para publicar.")) return;
+      escribir(CLAVE_TOKEN, null);
+      token = "";
+      $("#btn-nuevo").hidden = true;
+      $("#btn-publicar").hidden = true;
+      iniciar();
+    });
+
+    /* ---------- Borrador ---------- */
+    function hayCambios() {
+      return JSON.stringify(datos) !== JSON.stringify(original);
+    }
 
     function guardarBorrador() {
-      const cambiado = JSON.stringify(datos) !== JSON.stringify(original);
-      try { cambiado ? localStorage.setItem(CLAVE, JSON.stringify(datos)) : localStorage.removeItem(CLAVE); } catch (e) {}
+      const cambiado = hayCambios();
+      escribir(CLAVE_BORRADOR, cambiado ? JSON.stringify({ base: baseSha, datos }) : null);
+      if (!cambiado) borradorDeOtraVersion = false;
       $("#aviso-borrador").hidden = !cambiado;
+      $("#aviso-texto").innerHTML = borradorDeOtraVersion
+        ? "Tenés cambios guardados de antes, pero <strong>alguien publicó desde otro dispositivo</strong> mientras tanto. Si publicás, se reemplaza lo que publicó."
+        : "Tenés <strong>cambios sin publicar</strong>. Todavía no se ven en la web.";
+      $("#estado").textContent = publicando ? "Publicando…" : cambiado ? "Hay cambios sin publicar" : "Todo publicado";
+      $("#btn-publicar").disabled = publicando || !cambiado;
     }
+
+    $("#btn-descartar").addEventListener("click", () => {
+      if (!confirm("¿Descartar todos los cambios sin publicar?")) return;
+      escribir(CLAVE_BORRADOR, null);
+      pendientes.clear();
+      ocultarMensaje();
+      iniciar();
+    });
+
+    window.addEventListener("beforeunload", (e) => {
+      // El borrador de texto queda guardado, pero las fotos nuevas solo viven en esta pestaña.
+      const usadas = datos ? new Set(datos.productos.flatMap((p) => p.fotos)) : new Set();
+      if (publicando || [...pendientes].some((f) => usadas.has(f))) { e.preventDefault(); e.returnValue = ""; }
+    });
+
+    /* ---------- Lista ---------- */
+    const srcFoto = (nombre) => (locales.has(nombre) ? locales.get(nombre).url : `${CARPETA_FOTOS}/${nombre}-chica.jpg`);
 
     function render() {
       const cats = datos.categorias.map((c) => `<option value="${esc(c.id)}">${esc(c.nombre)}</option>`).join("");
       $("#filas").innerHTML = datos.productos.map((p, i) => `
         <tr data-i="${i}">
-          <td><img src="assets/img/${esc(p.fotos[0] || "")}-chica.jpg" alt="" onerror="this.style.visibility='hidden'"></td>
-          <td><div class="nombre">${esc(p.nombre)}</div><div class="id">${esc(p.id)}</div></td>
-          <td><select data-campo="categoria">${cats}</select></td>
-          <td><input type="number" min="0" step="100" data-campo="precio" value="${Number(p.precio) || 0}" aria-label="Precio de ${esc(p.nombre)}"></td>
-          <td><select data-campo="estado">${Object.entries(estados).map(([v, t]) => `<option value="${v}">${t}</option>`).join("")}</select></td>
-          <td><input type="checkbox" data-campo="destacado" ${p.destacado ? "checked" : ""} aria-label="Destacado"></td>
-          <td><input type="checkbox" data-campo="nuevo" ${p.nuevo ? "checked" : ""} aria-label="Nuevo"></td>
-          <td><div class="fila-acciones">
+          <td class="c-foto"><img src="${esc(srcFoto(p.fotos[0] || ""))}" alt="" onerror="this.style.visibility='hidden'"></td>
+          <td class="c-nombre"><div class="nombre">${esc(p.nombre)}</div><div class="id">${esc(p.id)}</div></td>
+          <td class="c-dato" data-et="Categoría"><select data-campo="categoria" aria-label="Categoría de ${esc(p.nombre)}">${cats}</select></td>
+          <td class="c-dato" data-et="Precio $"><input type="number" min="0" step="100" inputmode="numeric" data-campo="precio" value="${Number(p.precio) || 0}" aria-label="Precio de ${esc(p.nombre)}"></td>
+          <td class="c-dato" data-et="Estado"><select data-campo="estado" aria-label="Estado de ${esc(p.nombre)}">${Object.entries(estados).map(([v, t]) => `<option value="${v}">${t}</option>`).join("")}</select></td>
+          <td class="c-dato" data-et="Destacado en inicio"><input type="checkbox" data-campo="destacado" ${p.destacado ? "checked" : ""} aria-label="Destacado"></td>
+          <td class="c-dato" data-et="Etiqueta Nuevo"><input type="checkbox" data-campo="nuevo" ${p.nuevo ? "checked" : ""} aria-label="Nuevo"></td>
+          <td class="c-acciones"><div class="fila-acciones">
             <button class="mini" type="button" data-accion="subir" ${i === 0 ? "disabled" : ""} aria-label="Subir">▲</button>
             <button class="mini" type="button" data-accion="bajar" ${i === datos.productos.length - 1 ? "disabled" : ""} aria-label="Bajar">▼</button>
             <button class="mini" type="button" data-accion="editar">Editar</button>
@@ -202,10 +421,13 @@
       if (!b) return;
       const i = Number(b.closest("tr").dataset.i);
       const L = datos.productos;
+      if (b.dataset.accion === "editar") return abrir(i);
       if (b.dataset.accion === "subir" && i > 0) [L[i - 1], L[i]] = [L[i], L[i - 1]];
       if (b.dataset.accion === "bajar" && i < L.length - 1) [L[i + 1], L[i]] = [L[i], L[i + 1]];
-      if (b.dataset.accion === "borrar" && confirm(`¿Eliminar "${L[i].nombre}"?`)) L.splice(i, 1);
-      if (b.dataset.accion === "editar") return abrir(i);
+      if (b.dataset.accion === "borrar") {
+        if (!confirm(`¿Eliminar "${L[i].nombre}" del catálogo?`)) return;
+        L.splice(i, 1);
+      }
       render();
     });
 
@@ -213,25 +435,115 @@
       const pct = Number($("#porcentaje").value);
       if (!pct) return;
       if (!confirm(`¿${pct > 0 ? "Aumentar" : "Bajar"} todos los precios un ${Math.abs(pct)}%?`)) return;
-      datos.productos.forEach((p) => (p.precio = Math.round((p.precio * (1 + pct / 100)) / 100) * 100));
+      datos.productos.forEach((p) => {
+        p.precio = Math.round((p.precio * (1 + pct / 100)) / 100) * 100;
+        if (p.precioAntes) p.precioAntes = Math.round((p.precioAntes * (1 + pct / 100)) / 100) * 100;
+        if (p.precioDoble) p.precioDoble = Math.round((p.precioDoble * (1 + pct / 100)) / 100) * 100;
+      });
       render();
     });
 
-    $("#btn-descartar").addEventListener("click", () => {
-      if (!confirm("¿Descartar todos los cambios del borrador?")) return;
-      datos = JSON.parse(JSON.stringify(original));
-      render();
-    });
-
-    /* ---- Formulario ---- */
-    const dlg = $("#dlg");
-    let editando = null; // índice o -1 para nuevo
-    let idTocado = false;
-
-    function previas() {
-      const fotos = $("#f-fotos").value.split("\n").map((s) => s.trim().replace(/\.jpe?g$/i, "")).filter(Boolean);
-      $("#previas").innerHTML = fotos.map((f) => `<figure><img src="assets/img/${esc(f)}-chica.jpg" alt="" onerror="this.parentNode.classList.add('falta')"><figcaption>${esc(f)}</figcaption></figure>`).join("");
+    /* ---------- Fotos ---------- */
+    async function decodificarImagen(file) {
+      try {
+        return await createImageBitmap(file, { imageOrientation: "from-image" });
+      } catch (e) {
+        // Algunos navegadores (Safari viejo) no lo soportan: probamos con <img>
+        const url = URL.createObjectURL(file);
+        try {
+          const img = new Image();
+          img.src = url;
+          await img.decode();
+          return img;
+        } finally {
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+      }
     }
+
+    function escalar(fuente, { lado, calidad }) {
+      const ancho = fuente.width, alto = fuente.height;
+      const factor = Math.min(1, lado / Math.max(ancho, alto));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(ancho * factor);
+      canvas.height = Math.round(alto * factor);
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#fff"; // por si la foto tiene transparencia
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(fuente, 0, 0, canvas.width, canvas.height);
+      return new Promise((ok, mal) => canvas.toBlob((b) => (b ? ok(b) : mal(new Error("No se pudo convertir la foto."))), "image/jpeg", calidad));
+    }
+
+    function nombreLibre(base) {
+      const raiz = slug(base) || "producto";
+      for (let n = 1; ; n++) {
+        const nombre = `${raiz}-${n}`;
+        if (!existentes.has(nombre) && !locales.has(nombre) && !fotosForm.includes(nombre)) return nombre;
+      }
+    }
+
+    async function agregarFotos(archivos) {
+      const base = $("#f-id").value || $("#f-nombre").value;
+      const estado = $("#fotos-estado");
+      let errores = 0;
+      for (const [k, file] of [...archivos].entries()) {
+        estado.textContent = `Preparando foto ${k + 1} de ${archivos.length}…`;
+        try {
+          const fuente = await decodificarImagen(file);
+          const grande = await escalar(fuente, FOTO_GRANDE);
+          const chica = await escalar(fuente, FOTO_CHICA);
+          if (fuente.close) fuente.close();
+          const nombre = nombreLibre(base);
+          locales.set(nombre, { grande, chica, url: URL.createObjectURL(chica) });
+          pendientes.add(nombre);
+          fotosForm.push(nombre);
+          renderFotos();
+        } catch (e) {
+          errores++;
+        }
+      }
+      estado.textContent = errores
+        ? `${errores === 1 ? "Una foto no se pudo leer" : errores + " fotos no se pudieron leer"}. Probá exportarla como JPG desde la galería.`
+        : "";
+    }
+
+    let fotosForm = [];
+
+    function renderFotos() {
+      const n = fotosForm.length;
+      $("#fotos").innerHTML = fotosForm.map((f, i) => `
+        <figure class="${i === 0 ? "principal" : ""}">
+          <img src="${esc(srcFoto(f))}" alt="Foto ${i + 1}" onerror="this.parentNode.classList.add('falta')">
+          <figcaption>
+            <button class="mini" type="button" data-foto="izq" data-i="${i}" ${i === 0 ? "disabled" : ""} aria-label="Mover antes">◀</button>
+            <button class="mini mini--peligro" type="button" data-foto="quitar" data-i="${i}" aria-label="Quitar foto">✕</button>
+            <button class="mini" type="button" data-foto="der" data-i="${i}" ${i === n - 1 ? "disabled" : ""} aria-label="Mover después">▶</button>
+          </figcaption>
+        </figure>`).join("") + `
+        <label class="agregar-foto">+ Agregar fotos<input type="file" accept="image/*" multiple id="f-archivos"></label>`;
+    }
+
+    $("#fotos").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-foto]");
+      if (!b) return;
+      const i = Number(b.dataset.i);
+      const L = fotosForm;
+      if (b.dataset.foto === "izq" && i > 0) [L[i - 1], L[i]] = [L[i], L[i - 1]];
+      if (b.dataset.foto === "der" && i < L.length - 1) [L[i + 1], L[i]] = [L[i], L[i + 1]];
+      if (b.dataset.foto === "quitar") L.splice(i, 1);
+      renderFotos();
+    });
+
+    $("#fotos").addEventListener("change", (e) => {
+      if (e.target.id !== "f-archivos" || !e.target.files.length) return;
+      agregarFotos(e.target.files);
+    });
+
+    /* ---------- Formulario ---------- */
+    const dlg = $("#dlg");
+    let editando = null; // índice, o -1 para uno nuevo
+    let idTocado = false;
 
     function abrir(i) {
       editando = i;
@@ -243,32 +555,32 @@
       $("#f-estado").value = p.estado;
       $("#f-precio").value = p.precio;
       $("#f-antes").value = p.precioAntes || "";
-      $("#f-descripcion").value = p.descripcion;
+      $("#f-descripcion").value = p.descripcion || "";
       $("#f-detalles").value = (p.detalles || []).join("\n");
-      $("#f-fotos").value = (p.fotos || []).join("\n");
       $("#f-destacado").checked = !!p.destacado;
       $("#f-nuevo").checked = !!p.nuevo;
       $("#f-id").value = p.id;
       $("#f-error").hidden = true;
+      $("#fotos-estado").textContent = "";
+      fotosForm = [...(p.fotos || [])];
       idTocado = i >= 0;
-      previas();
+      renderFotos();
       dlg.showModal();
     }
 
     $("#btn-nuevo").addEventListener("click", () => abrir(-1));
-    $("#f-fotos").addEventListener("input", previas);
     $("#f-id").addEventListener("input", () => (idTocado = true));
     $("#f-nombre").addEventListener("input", () => { if (!idTocado) $("#f-id").value = slug($("#f-nombre").value); });
 
     $("#form").addEventListener("submit", (e) => {
       if (e.submitter && e.submitter.value !== "guardar") return;
       const id = slug($("#f-id").value || $("#f-nombre").value);
-      const fotos = $("#f-fotos").value.split("\n").map((s) => s.trim().replace(/\.jpe?g$/i, "")).filter(Boolean);
       let error = "";
       if (!$("#f-nombre").value.trim()) error = "Falta el nombre.";
       else if (!id) error = "Falta el identificador.";
-      else if (datos.productos.some((p, i) => p.id === id && i !== editando)) error = `Ya existe otro producto con el identificador "${id}".`;
-      else if (!fotos.length) error = "Agregá al menos una foto.";
+      else if (datos.productos.some((p, i) => p.id === id && i !== editando)) error = `Ya existe otro producto con el identificador "${id}". Cambiá el nombre o el identificador (en Opciones avanzadas).`;
+      else if (!fotosForm.length) error = "Agregá al menos una foto.";
+      else if ($("#fotos-estado").textContent.startsWith("Preparando")) error = "Esperá a que terminen de prepararse las fotos.";
       if (error) {
         e.preventDefault();
         $("#f-error").textContent = error;
@@ -285,7 +597,7 @@
         precioAntes: antes,
         descripcion: $("#f-descripcion").value.trim(),
         detalles: $("#f-detalles").value.split("\n").map((s) => s.trim()).filter(Boolean),
-        fotos,
+        fotos: [...fotosForm],
         estado: $("#f-estado").value,
         destacado: $("#f-destacado").checked,
         nuevo: $("#f-nuevo").checked,
@@ -295,26 +607,135 @@
       render();
     });
 
-    /* ---- Descarga ---- */
-    $("#btn-descargar").addEventListener("click", () => {
-      const cabecera = `/* =========================================================
-   CATÁLOGO DE PRODUCTOS · generado con editor.html el ${new Date().toLocaleString("es-AR")}
+    /* ---------- Publicar ---------- */
+    const CABECERA = `/* =========================================================
+   CATÁLOGO DE PRODUCTOS
    ---------------------------------------------------------
-   Campos: id, nombre, categoria, precio, precioAntes, precioDoble,
-   notaPrecio, descripcion, detalles, fotos (en assets/img sin ".jpg"), estado
-   ("disponible" | "a-pedido" | "agotado"), destacado, nuevo.
-   Podés editarlo a mano o con editor.html.
+   Se edita desde miver.com.ar/editor.html (o a mano, con cuidado).
+   Campos:
+     id           identificador único, sin espacios ni tildes (se usa en el link)
+     nombre       nombre que se muestra
+     categoria    una de las claves de CATEGORIAS
+     precio       número sin puntos ni signo $  (ej: 18500)
+     precioAntes  opcional: precio anterior tachado (para ofertas) o null
+     precioDoble  opcional: precio por 2 unidades (se muestra "$8.000 / $14.000")
+     notaPrecio   opcional: aclaración que aparece debajo del precio
+     descripcion  texto libre
+     detalles     lista de características cortas
+     fotos        nombres de archivo en assets/img SIN ".jpg" (la primera es la principal)
+     estado       "disponible" | "a-pedido" | "agotado"
+     destacado    true para que aparezca en la página de inicio
+     nuevo        true para mostrar la etiqueta "Nuevo"
    ========================================================= */
 `;
-      const js = `${cabecera}\nwindow.MIVER_CATEGORIAS = ${JSON.stringify(datos.categorias, null, 2)};\n\nwindow.MIVER_PRODUCTOS = ${JSON.stringify(datos.productos, null, 2)};\n`;
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([js], { type: "text/javascript" }));
-      a.download = "productos.js";
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+
+    function generarArchivo() {
+      return `${CABECERA}\nwindow.MIVER_CATEGORIAS = ${JSON.stringify(datos.categorias, null, 2)};\n\nwindow.MIVER_PRODUCTOS = ${JSON.stringify(datos.productos, null, 2)};\n`;
+    }
+
+    function resumen() {
+      const antes = new Map(original.productos.map((p) => [p.id, p]));
+      const ahora = new Map(datos.productos.map((p) => [p.id, p]));
+      const lineas = [];
+      for (const p of datos.productos) {
+        const viejo = antes.get(p.id);
+        if (!viejo) { lineas.push(`+ Nuevo: ${p.nombre}`); continue; }
+        const cambios = [];
+        if (viejo.precio !== p.precio) cambios.push(`precio ${viejo.precio} → ${p.precio}`);
+        if (viejo.estado !== p.estado) cambios.push(`${estados[viejo.estado] || viejo.estado} → ${estados[p.estado] || p.estado}`);
+        const resto = (o) => JSON.stringify({ ...o, precio: 0, estado: "" });
+        if (resto(viejo) !== resto(p)) cambios.push("otros datos");
+        if (cambios.length) lineas.push(`~ ${p.nombre}: ${cambios.join(", ")}`);
+      }
+      for (const p of original.productos) if (!ahora.has(p.id)) lineas.push(`- Eliminado: ${p.nombre}`);
+      if (!lineas.length) lineas.push("Cambio de orden");
+      const titulo = lineas.length === 1 && lineas[0].length < 65 ? lineas[0].replace(/^[+~-] /, "") : `Actualizar catálogo (${lineas.length} cambios)`;
+      return `Editor: ${titulo}\n\n${lineas.join("\n")}`;
+    }
+
+    const aBase64 = (blob) => new Promise((ok, mal) => {
+      const r = new FileReader();
+      r.onload = () => ok(String(r.result).split(",")[1]);
+      r.onerror = () => mal(r.error);
+      r.readAsDataURL(blob);
     });
 
-    render();
+    function fotosFaltantes() {
+      const faltan = [];
+      for (const p of datos.productos) {
+        for (const f of p.fotos) if (!existentes.has(f) && !locales.has(f)) faltan.push(`${p.nombre} (${f})`);
+      }
+      return faltan;
+    }
+
+    $("#btn-publicar").addEventListener("click", async () => {
+      if (publicando || !hayCambios()) return;
+      ocultarMensaje();
+      const faltan = fotosFaltantes();
+      if (faltan.length) {
+        mostrarMensaje("error", `Hay fotos que no se pueden publicar porque se perdieron al cerrar o recargar la página: ${faltan.join(", ")}. Entrá a esos productos, quitá la foto con borde rojo y volvé a agregarla.`);
+        return;
+      }
+      publicando = true;
+      guardarBorrador();
+      try {
+        const ref = await gh(`/git/ref/heads/${RAMA}`);
+        const ultimo = await gh(`/git/commits/${ref.object.sha}`);
+        const actual = await gh(`/contents/${ARCHIVO}?ref=${encodeURIComponent(ref.object.sha)}`);
+        if (actual.sha !== baseSha &&
+            !confirm("Alguien publicó cambios en el catálogo desde otro dispositivo mientras editabas. Si seguís, tu versión reemplaza la suya. ¿Publicar igual?")) {
+          throw Object.assign(new Error("Publicación cancelada. Podés tocar “Descartar cambios” para cargar la última versión."), { cancelada: true });
+        }
+
+        const usadas = new Set(datos.productos.flatMap((p) => p.fotos));
+        const subir = [...pendientes].filter((f) => usadas.has(f));
+        const entradas = [];
+        for (const [k, nombre] of subir.entries()) {
+          $("#estado").textContent = `Subiendo fotos (${k + 1} de ${subir.length})…`;
+          const { grande, chica } = locales.get(nombre);
+          const [g, c] = await Promise.all([
+            post("/git/blobs", { content: await aBase64(grande), encoding: "base64" }),
+            post("/git/blobs", { content: await aBase64(chica), encoding: "base64" }),
+          ]);
+          entradas.push({ path: `${CARPETA_FOTOS}/${nombre}.jpg`, mode: "100644", type: "blob", sha: g.sha });
+          entradas.push({ path: `${CARPETA_FOTOS}/${nombre}-chica.jpg`, mode: "100644", type: "blob", sha: c.sha });
+        }
+        $("#estado").textContent = "Guardando el catálogo…";
+        const archivo = await post("/git/blobs", { content: generarArchivo(), encoding: "utf-8" });
+        entradas.push({ path: ARCHIVO, mode: "100644", type: "blob", sha: archivo.sha });
+        const arbol = await post("/git/trees", { base_tree: ultimo.tree.sha, tree: entradas });
+        const nuevo = await post("/git/commits", { message: resumen(), tree: arbol.sha, parents: [ref.object.sha] });
+        try {
+          await gh(`/git/refs/heads/${RAMA}`, { method: "PATCH", body: JSON.stringify({ sha: nuevo.sha, force: false }) });
+        } catch (err) {
+          if (err.status === 422 || err.status === 409) throw new Error("Alguien publicó al mismo tiempo. Tocá Publicar de nuevo.");
+          throw err;
+        }
+
+        subir.forEach((f) => { existentes.add(f); pendientes.delete(f); });
+        original = copia(datos);
+        baseSha = archivo.sha;
+        borradorDeOtraVersion = false;
+        escribir(CLAVE_BORRADOR, null);
+        mostrarMensaje("ok", "¡Publicado! En 1 o 2 minutos se ve en miver.com.ar. Si no ves el cambio, recargá la página del sitio.");
+      } catch (err) {
+        mostrarMensaje(err.cancelada ? "info" : "error", err.cancelada ? err.message : "No se pudo publicar: " + explicar(err) + " Tus cambios siguen guardados acá.");
+      } finally {
+        publicando = false;
+        guardarBorrador();
+      }
+    });
+
+    function mostrarMensaje(tipo, texto) {
+      const m = $("#mensaje");
+      m.className = `ed-mensaje ed-mensaje--${tipo}`;
+      m.textContent = texto;
+      m.hidden = false;
+      m.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    function ocultarMensaje() { $("#mensaje").hidden = true; }
+
+    iniciar();
   })();
   </script>
 </body>

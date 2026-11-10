@@ -1,5 +1,5 @@
 # Publica el sitio en GitHub Pages cada vez que se suben cambios a main.
-# Solo se publican los archivos del sitio: el editor, el README y los scripts quedan afuera.
+# Solo se publican los archivos del sitio (incluido el editor online); el README y los scripts quedan afuera.
 name: Publicar sitio
 
 on:
@@ -27,7 +27,7 @@ jobs:
       - name: Armar carpeta del sitio
         run: |
           mkdir _sitio
-          cp -r index.html catalogo.html producto.html 404.html favicon.svg robots.txt css js assets _sitio/
+          cp -r index.html catalogo.html producto.html editor.html 404.html favicon.svg robots.txt css js assets _sitio/
       - name: Generar el mapa del sitio para Google (incluye cada producto)
         run: |
           node -e '
