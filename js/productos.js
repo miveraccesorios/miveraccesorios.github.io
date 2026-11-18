@@ -38,6 +38,130 @@ window.MIVER_CATEGORIAS = [
 
 window.MIVER_PRODUCTOS = [
   {
+    "id": "choker-lux",
+    "nombre": "Choker Lux",
+    "categoria": "chokers",
+    "precio": 8000,
+    "precioAntes": null,
+    "descripcion": "Choker hecho con mostacillas de vidrio.",
+    "detalles": [
+      "Precio por 1 choker: $8.000",
+      "Precio por 2 chokers: $14.000"
+    ],
+    "fotos": [
+      "choker-lux-4",
+      "choker-lux-3",
+      "choker-lux-2",
+      "choker-lux-1",
+      "choker-lux-5"
+    ],
+    "estado": "disponible",
+    "destacado": false,
+    "nuevo": true
+  },
+  {
+    "id": "pulsera-jana",
+    "nombre": "Pulsera Jana",
+    "categoria": "pulseras",
+    "precio": 30000,
+    "precioAntes": null,
+    "descripcion": "Pulsera hecha con hilo dorado, mostacillas blancas y terminaciones en acero bañado en oro. Tejida a mano, a crochet.",
+    "detalles": [
+      "Hilo dorado y mostacillas. Terminación en acero bañado en oro",
+      "Tejido a mano"
+    ],
+    "fotos": [
+      "pulsera-jana-1",
+      "pulsera-jana-2"
+    ],
+    "estado": "disponible",
+    "destacado": false,
+    "nuevo": true
+  },
+  {
+    "id": "mil-vueltas-silver",
+    "nombre": "Mil vueltas Silver",
+    "categoria": "collares",
+    "precio": 40000,
+    "precioAntes": null,
+    "descripcion": "Collar hecho con hilo y cuentas de vidrio. Tejido a mano, a crochet. Los collares pueden variar según la foto de referencia porque cada uno se hace a mano desde cero.",
+    "detalles": [
+      "Tejido a mano, a crochet",
+      "Hilo y cuentas de vidrio",
+      "Se usa largo, en vueltas, como choker, cinturón o pulsera"
+    ],
+    "fotos": [
+      "mil-vueltas-silver-3",
+      "mil-vueltas-silver-1",
+      "mil-vueltas-silver-2",
+      "mil-vueltas-silver-4"
+    ],
+    "estado": "disponible",
+    "destacado": false,
+    "nuevo": true
+  },
+  {
+    "id": "mil-vueltas-selene",
+    "nombre": "Mil vueltas Selene",
+    "categoria": "collares",
+    "precio": 40000,
+    "precioAntes": null,
+    "descripcion": "Collar hecho con hilo y cuentas de vidrio. Tejido a mano, a crochet. Los collares pueden variar según la foto de referencia porque cada uno se hace a mano desde cero.",
+    "detalles": [
+      "Tejido a mano, a crochet",
+      "Hilo y cuentas de vidrio",
+      "Se usa largo, en vueltas, como choker, cinturón o pulsera"
+    ],
+    "fotos": [
+      "mil-vueltas-selene-1",
+      "mil-vueltas-selene-2"
+    ],
+    "estado": "disponible",
+    "destacado": false,
+    "nuevo": true
+  },
+  {
+    "id": "mil-vueltas-cobre",
+    "nombre": "Mil vueltas Cobre",
+    "categoria": "collares",
+    "precio": 40000,
+    "precioAntes": null,
+    "descripcion": "Collar hecho con hilo y cuentas de vidrio. Tejido a mano, a crochet. Los collares pueden variar según la foto de referencia porque cada uno se hace a mano desde cero.",
+    "detalles": [
+      "Tejido a mano, a crochet",
+      "Hilo y cuentas de vidrio",
+      "Se usa largo, en vueltas, como choker, cinturón o pulsera"
+    ],
+    "fotos": [
+      "mil-vueltas-cobre-1",
+      "mil-vueltas-cobre-2",
+      "mil-vueltas-cobre-3"
+    ],
+    "estado": "disponible",
+    "destacado": true,
+    "nuevo": true
+  },
+  {
+    "id": "mil-vueltas-arena",
+    "nombre": "Mil vueltas Arena",
+    "categoria": "collares",
+    "precio": 40000,
+    "precioAntes": null,
+    "descripcion": "Collar hecho con hilo, cuentas y dijes estrella. Ideal para un día de playa. Tejido a mano, a crochet. Los collares pueden variar según la foto de referencia porque cada uno se hace a mano desde cero.",
+    "detalles": [
+      "Tejido a mano, a crochet",
+      "Hilo y dijes de estrella",
+      "Se usa largo, en vueltas, como choker, cinturón o pulsera"
+    ],
+    "fotos": [
+      "mil-vueltas-arena-1",
+      "mil-vueltas-arena-2"
+    ],
+    "estado": "disponible",
+    "destacado": true,
+    "nuevo": true
+  },
+  {
     "id": "collar-adele",
     "nombre": "Mil vueltas Adele",
     "categoria": "collares",
@@ -94,7 +218,7 @@ window.MIVER_PRODUCTOS = [
       "collar-choco-1"
     ],
     "estado": "disponible",
-    "destacado": false,
+    "destacado": true,
     "nuevo": false
   },
   {
@@ -178,7 +302,7 @@ window.MIVER_PRODUCTOS = [
       "collar-mila-3"
     ],
     "estado": "disponible",
-    "destacado": true,
+    "destacado": false,
     "nuevo": false
   },
   {
@@ -258,7 +382,7 @@ window.MIVER_PRODUCTOS = [
       "pulsera-aguamarina-2"
     ],
     "estado": "disponible",
-    "destacado": false,
+    "destacado": true,
     "nuevo": false
   },
   {
@@ -292,9 +416,10 @@ window.MIVER_PRODUCTOS = [
       "Mostacilla de vidrio"
     ],
     "fotos": [
+      "choker-azul-5",
       "choker-azul-1",
-      "choker-azul-2",
-      "choker-azul-3"
+      "choker-azul-4",
+      "choker-azul-2"
     ],
     "estado": "disponible",
     "destacado": false,
@@ -370,9 +495,10 @@ window.MIVER_PRODUCTOS = [
       "Piedras naturales"
     ],
     "fotos": [
+      "choker-cuarzo-rosa-4",
       "choker-cuarzo-rosa-1",
-      "choker-cuarzo-rosa-2",
-      "choker-cuarzo-rosa-3"
+      "choker-cuarzo-rosa-3",
+      "choker-cuarzo-rosa-2"
     ],
     "estado": "disponible",
     "destacado": false,
